@@ -5,13 +5,15 @@ require_relative( '../models/city.rb' )
 require_relative( '../models/country.rb' )
 also_reload( '../models/*' )
 
+# Read
+
 get '/countries' do
   @countries = Country.all
   erb(:index)
 end
 
 get '/countries/new' do
-  @cities = House.all
+  @cities = City.all
   erb(:new)
 end
 
@@ -26,7 +28,7 @@ get '/countries/:id' do
 end
 
 get '/countries/:id/edit' do
-  @cities = House.all
+  @cities = City.all
   @country = Country.find(params['id'])
   erb(:edit)
 end
