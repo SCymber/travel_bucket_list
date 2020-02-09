@@ -1,20 +1,17 @@
 require( 'sinatra' )
 require( 'sinatra/contrib/all' )
 require( 'pry-byebug' )
-require_relative( '../models/city.rb' )
 require_relative( '../models/country.rb' )
+require_relative( '../models/city.rb' )
 also_reload( '../models/*' )
-
-# Read
 
 get '/countries' do
   @countries = Country.all
-  erb(:index)
+  erb(:"/countries/index")
 end
 
 get '/countries/new' do
-  @cities = City.all
-  erb(:new)
+  erb(:"countries/new")
 end
 
 post '/countries' do
@@ -24,13 +21,13 @@ end
 
 get '/countries/:id' do
   @country = Country.find(params['id'])
-  erb(:show)
+  @cities = @country.cities()
+  erb(:"countries/show")
 end
 
 get '/countries/:id/edit' do
-  @cities = City.all
   @country = Country.find(params['id'])
-  erb(:edit)
+  erb(:"countries/edit")
 end
 
 post '/countries/:id' do
