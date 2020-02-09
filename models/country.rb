@@ -49,7 +49,7 @@ class Country
     return Country.new(country)
   end
 
-  #find all cities in a country
+  #find cities in a country
   def cities()
     sql = "SELECT * FROM cities WHERE country_id = $1"
     values = [@id]
