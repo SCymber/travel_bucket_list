@@ -1,52 +1,88 @@
-require_relative ('../db/sql_runner')
-require('pry')
+require_relative('../db/sql_runner')
 
 class City
 
+  attr_accessor :name, :country_id
   attr_reader :id
-  attr_accessor :name, :country_id, :visited
 
-  def initialize(details)
-    @id = details['id'].to_i if details['id']
-    @name = details['name']
-    @country_id = details['country_id'].to_i
-    @visited = details['visited'] == "t" ? true : false
+  def initialize(options)
+    @id = options['id'].to_i if options['id']
+    @name = options['first_name']
+    @country_id = options['country_id'].to_i
   end
 
   def save()
-    sql = "INSERT INTO cities (name, country_id, visited) VALUES ($1, $2, $3) RETURNING id;"
-    values = [@name, @country_id, @visited]
-    results = SqlRunner.run(sql, values)
-    @id = results.first()['id'].to_i
+    sql = "INSERT INTO cities
+    (
+      name,
+      country_id,
+    )
+    VALUES
+    (
+      $1, $2
+    )
+    RETURNING id"
+    values = [@name]
+    result = SqlRunner.run(sql, values)
+    id = result.first["id"]
+    @id = id.to_i
   end
 
-  def self.all()
-    sql = "SELECT * FROM cities"
-    results = SqlRunner.run(sql)
-    return results.map {|city|City.new(city)}
+  def country()
+    country = Country.find(@country_id)
+    return country
   end
 
   def update()
-    sql = "UPDATE cities SET (name, country_id, visited) = ($1, $2, $3) WHERE id = $4"
-    values = [@name, @country_id, @visited, @id]
+    sql = "UPDATE cities
+    SET
+    (
+      name,
+      country_id
+    ) =
+    (
+      $1, $2
+    )
+    WHERE id = $5"
+    values = [@name, @country_id, @id]
     SqlRunner.run(sql, values)
   end
 
-  def self.delete_all()
-    sql = "DELETE FROM cities"
-    SqlRunner.run(sql)
-  end
-
   def delete()
-    sql = "DELETE FROM cities WHERE id = $1"
+    sql = "DELETE FROM cities
+    WHERE id = $1"
     values = [@id]
     SqlRunner.run(sql, values)
   end
 
-  def self.find(id)
-    sql = "SELECT * FROM cities WHERE id = $1"
-    values = [id]
-    city = SqlRunner.run(sql, values).first
-    return City.new(city)
+  def self.delete_all
+    sql = "DELETE FROM cities"
+    SqlRunner.run( sql )
   end
+
+  def self.all()
+    sql = "SELECT * FROM cities"
+    city_data = SqlRunner.run(sql)
+    cities = map_items(city_data)
+    return cities
+  end
+
+  def self.map_items(city_data)
+    return city_data.map { |city| Student.new(city) }
+  end
+
+  def self.find(id)
+    sql = "SELECT * FROM cities
+    WHERE id = $1"
+    values = [id]
+    result = SqlRunner.run(sql, values).first
+    city = Student.new(result)
+    return city
+  end
+
+  def format_name
+    return "#{@name.capitalize} #{@name.capitalize}"
+  end
+
+
 end
