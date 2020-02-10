@@ -15,17 +15,16 @@ class City
     sql = "INSERT INTO cities
     (
       name,
-      country_id,
+      country_id
     )
     VALUES
     (
       $1, $2
     )
     RETURNING id"
-    values = [@name]
-    result = SqlRunner.run(sql, values)
-    id = result.first["id"]
-    @id = id.to_i
+    values = [@name, @country_id]
+    results = SqlRunner.run(sql, values)
+    @id = results.first()['id'].to_i
   end
 
   def country()
@@ -44,7 +43,7 @@ class City
       $1, $2
     )
     WHERE id = $5"
-    values = [@name, @country_id, @id]
+    values = [@name, @country_id,]
     SqlRunner.run(sql, values)
   end
 
