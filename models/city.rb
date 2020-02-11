@@ -2,13 +2,14 @@ require_relative('../db/sql_runner')
 
 class City
 
-  attr_accessor :name, :country_id
+  attr_accessor :name, :country_id, :visited
   attr_reader :id
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
-    @name = options['first_name']
+    @name = options['name']
     @country_id = options['country_id'].to_i
+    @visited = options['visited'] == "t" ? true : false
   end
 
   def save()
@@ -43,7 +44,7 @@ class City
       $1, $2
     )
     WHERE id = $5"
-    values = [@name, @country_id,]
+    values = [@name, @country_id]
     SqlRunner.run(sql, values)
   end
 
@@ -52,6 +53,10 @@ class City
     WHERE id = $1"
     values = [@id]
     SqlRunner.run(sql, values)
+  end
+
+  def format_name
+    return "#{@name.capitalize} #{@name.capitalize}"
   end
 
   def self.delete_all
@@ -67,7 +72,7 @@ class City
   end
 
   def self.map_items(city_data)
-    return city_data.map { |city| Student.new(city) }
+    return city_data.map { |city| City.new(city) }
   end
 
   def self.find(id)
@@ -75,13 +80,22 @@ class City
     WHERE id = $1"
     values = [id]
     result = SqlRunner.run(sql, values).first
-    city = Student.new(result)
+    city = City.new(result)
     return city
-  end
 
-  def format_name
-    return "#{@name.capitalize} #{@name.capitalize}"
-  end
+    def self.visited(country_id)
+      sql = "SELECT * FROM cities WHERE visited = 't' AND country_id = $1;"
+      values = [country_id]
+      visited = SqlRunner.run(sql, values)
+      return visited.map {|city|City.new(city)}
+    end
 
+    def self.not_visited(country_id)
+      sql = "SELECT * FROM cities WHERE visited = 'f' AND country_id = $1;"
+      values = [country_id]
+      visited = SqlRunner.run(sql, values)
+      return visited.map {|city|City.new(city)}
+    end
+  end
 
 end

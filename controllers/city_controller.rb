@@ -1,13 +1,13 @@
 require( 'sinatra' )
 require( 'sinatra/contrib/all' )
 require( 'pry-byebug' )
-require_relative( '../models/city.rb' )
 require_relative( '../models/country.rb' )
+require_relative( '../models/city.rb' )
 also_reload( '../models/*' )
 
 get '/cities' do
   @cities = City.all
-  erb(:"/cities/index")
+  erb(:"cities/index")
 end
 
 get '/cities/new' do

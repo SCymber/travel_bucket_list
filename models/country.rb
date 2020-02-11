@@ -50,4 +50,18 @@ class Country
     return country_data.map { |country| Country.new(country) }
   end
 
+  def self.visited(country_id)
+  sql = "SELECT * FROM cities WHERE visited = 't' AND country_id = $1;"
+  values = [country_id]
+  visited = SqlRunner.run(sql, values)
+  return visited.map {|city|City.new(city)}
 end
+
+def self.not_visited(country_id)
+  sql = "SELECT * FROM cities WHERE visited = 'f' AND country_id = $1;"
+  values = [country_id]
+  visited = SqlRunner.run(sql, values)
+  return visited.map {|city|City.new(city)}
+end
+  
+  end

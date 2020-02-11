@@ -7,10 +7,11 @@ also_reload( '../models/*' )
 
 get '/countries' do
   @countries = Country.all
-  erb(:"/countries/index")
+  erb(:"countries/index")
 end
 
 get '/countries/new' do
+  @countries = Country.all
   erb(:"countries/new")
 end
 
@@ -40,4 +41,16 @@ post '/countries/:id/delete' do
   country = Country.find(params['id'])
   country.delete
   redirect to '/countries'
+end
+
+get '/countries/:id/edit' do
+  id = params[:id].to_i()
+  @country = Country.find(id)
+  erb(:"countries/edit")
+end
+
+post '/countries/:id/update' do
+  country = Country.new(params)
+  country.update()
+  redirect '/countries'
 end
