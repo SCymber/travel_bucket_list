@@ -18,7 +18,7 @@ p  {
 
 .title a {
   color :black;
-  font-size: 200px;
+  font-size: 50px;
 }
 
 .title a:hover {
@@ -29,6 +29,7 @@ p  {
 .nav {
   display: flex;
   flex-direction: row;
+  font-size: 200px
 }
 
 .nav a {
