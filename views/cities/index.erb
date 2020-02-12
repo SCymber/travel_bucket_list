@@ -1,6 +1,5 @@
 <h1>Cities</h1>
-
+<p><a href="/cities/new">Add a city!</a></p>
 <% for city in @cities %>
-  <p><%= city.name() %>, <%= city.country.name %></p>
-
+  <p><a href="/cities/<%= city.id %>"><%= city.name() %>, <%= city.country.name %></a></p>
 <%end%>

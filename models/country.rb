@@ -2,24 +2,26 @@ require_relative('../db/sql_runner')
 
 class Country
 
-  attr_reader :id, :name
+  attr_reader :id, :name, :visited
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
     @name = options['name']
+    @visited = "F"
   end
 
   def save()
     sql = "INSERT INTO countries
     (
-      name
+      name,
+      visited
     )
     VALUES
     (
-      $1
+      $1, $2
     )
     RETURNING id"
-    values = [@name]
+    values = [@name, @visited]
     result = SqlRunner.run(sql, values)
     id = result.first["id"]
     @id = id.to_i
@@ -63,5 +65,5 @@ def self.not_visited(country_id)
   visited = SqlRunner.run(sql, values)
   return visited.map {|city|City.new(city)}
 end
-  
+
   end

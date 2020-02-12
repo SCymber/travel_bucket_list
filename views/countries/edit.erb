@@ -1,23 +1,10 @@
-<h1>Edit country here</h1>
+<h1>Edit a city here!</h1>
 
 <h3></h3>
 
-<form action="/countries/<%= @country.id() %>/update" method="POST">
-
-
-
-
-  <label for="country">Country:</label>
-  <input required type="text" value="<%= @country.name() %>" id="country" name="name">
-  <br>
-
-  <br>
-
-  <input type="radio" name="visited" value="t" id="t">
-    <label for="t">Add to visited</label>
-  <input type="radio" name="visited" value="f" id="f">
-    <label for="f">Add to wishlist</label>
-  <br>
+<form action="/countries/<%= @country.id %>" method="POST">
+  <label for="name">Name:</label>
+  <input type="text" name="name" value="<%= @country.name %>">
 
   <button type="Submit">Submit</button>
 

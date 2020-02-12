@@ -1,0 +1,8 @@
+<p><%= @city.name %></p>
+<p><%= @city.country.name %></p>
+<form action="/cities/<%= @city.id %>/edit" method="get">
+  <input type="submit" value="Edit">
+</form>
+<form action="/cities/<%= @city.id %>/delete" method="post">
+  <input type="submit" value="Delete">
+</form>

@@ -1,21 +1,23 @@
-<h1>Edit city here</h1>
+<h1>Edit a city here!</h1>
 
 <h3></h3>
 
-<form action="/cities/<%= @city.id() %>" method="POST">
+<form action="/cities/<%= @city.id %>" method="POST">
+  <label for="country">Country:</label>
+  <select name="country_id" id="country" value="<%= @city.country.id %>">
+    <% for country in @countries %>
+      <option value="<%= country.id %>"><%= country.name %></option>
+    <% end %>
+  </select>
 
-  <input type="text" name="country_id" hidden value="<%= @country_id %>">
-
-  <label for="city">City:</label>
-  <input required type="text" value="<%= @city.name() %>" id="city" name="name">
+  <label for="name">Name:</label>
+  <input type="text" name="name" value="<%= @city.name %>">
+  <input type="radio" name="visited" value="t" id="t">
+    <label for="t">Visited</label>
+  <input type="radio" name="visited" value="f" id="f">
+    <label for="f">Wishlist</label>
   <br>
-  <br>
 
-<input type="radio" name="visited" value="t" id="t">
-  <label for="t">Add to visited</label>
-<input type="radio" name="visited" value="f" id="f">
-  <label for="f">Add to wishlist</label>
-<br>
   <button type="Submit">Submit</button>
 
 </form>

@@ -11,6 +11,7 @@ get '/cities' do
 end
 
 get '/cities/new' do
+  @countries = City.countries()
   erb(:"cities/new")
 end
 
@@ -26,7 +27,7 @@ end
 
 get '/cities/:id/edit' do
   @city = City.find(params['id'])
-  @country_id = @city.country_id
+  @countries = Country.all
   erb(:"cities/edit")
 end
 
@@ -39,5 +40,5 @@ end
 post '/cities/:id/delete' do
   city = City.find(params['id'])
   city.delete
-  redirect to '/countries'
+  redirect to '/cities'
 end

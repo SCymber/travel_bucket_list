@@ -22,7 +22,6 @@ end
 
 get '/countries/:id' do
   @country = Country.find(params['id'])
-  @cities = @country.cities()
   erb(:"countries/show")
 end
 

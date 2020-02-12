@@ -2,28 +2,29 @@ require_relative('../db/sql_runner')
 
 class City
 
-  attr_accessor :name, :country_id, :visited
+  attr_accessor :name, :visited
   attr_reader :id
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
     @name = options['name']
     @country_id = options['country_id'].to_i
-    @visited = options['visited'] == "t" ? true : false
+    @visited = "F"
   end
 
   def save()
     sql = "INSERT INTO cities
     (
       name,
-      country_id
+      country_id,
+      visited
     )
     VALUES
     (
-      $1, $2
+      $1, $2, $3
     )
     RETURNING id"
-    values = [@name, @country_id]
+    values = [@name, @country_id, @visited]
     results = SqlRunner.run(sql, values)
     @id = results.first()['id'].to_i
   end
@@ -33,18 +34,23 @@ class City
     return country
   end
 
+  def self.countries()
+    return Country.all()
+  end
+
   def update()
     sql = "UPDATE cities
     SET
     (
       name,
       country_id
+      visited
     ) =
     (
-      $1, $2
+      $1, $2, $3
     )
-    WHERE id = $5"
-    values = [@name, @country_id]
+    WHERE id = $4"
+    values = [@name, @country_id, @visited, @id]
     SqlRunner.run(sql, values)
   end
 

@@ -7,10 +7,17 @@
   <input required type="text" placeholder="e.g. Miami" id="city" name="name">
   <br>
   <br>
-
-<input type="radio" name="visited" value="t" id="t">
+  <div class="form-el">
+      <label for="country_select">Select Country:</label>
+      <select name="country_id" id="country_select">
+        <% @countries.each do |country| %>
+            <option value=<%= country.id %>><%= country.name.capitalize %></option>
+        <% end %>
+      </select>
+    </div>
+  <input type="radio" name="visited" value="t" id="t">
   <label for="t">Add to visited</label>
-<input type="radio" name="visited" value="f" id="f">
+  <input type="radio" name="visited" value="f" id="f">
   <label for="f">Add to wishlist</label>
 
 
