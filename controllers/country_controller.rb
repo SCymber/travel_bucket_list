@@ -20,6 +20,11 @@ post '/countries' do
   redirect to '/countries'
 end
 
+get '/countries/visited' do
+  @countries = Country.visited()
+  erb(:"countries/index")
+end
+
 get '/countries/:id' do
   @country = Country.find(params['id'])
   erb(:"countries/show")

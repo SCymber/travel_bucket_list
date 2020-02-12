@@ -7,7 +7,7 @@ class Country
   def initialize(options)
     @id = options['id'].to_i if options['id']
     @name = options['name']
-    @visited = "F"
+    @visited = options['visited']
   end
 
   def save()
@@ -25,6 +25,28 @@ class Country
     result = SqlRunner.run(sql, values)
     id = result.first["id"]
     @id = id.to_i
+  end
+
+  def update()
+    sql = "UPDATE countries
+    SET
+    (
+      name,
+      visited
+    ) =
+    (
+      $1, $2
+    )
+    WHERE id = $3"
+    values = [@name, @visited, @id]
+    SqlRunner.run(sql, values)
+  end
+
+  def delete()
+    sql = "DELETE FROM countries
+    WHERE id = $1"
+    values = [@id]
+    SqlRunner.run(sql, values)
   end
 
   def self.find(id)
@@ -52,18 +74,9 @@ class Country
     return country_data.map { |country| Country.new(country) }
   end
 
-  def self.visited(country_id)
-  sql = "SELECT * FROM cities WHERE visited = 't' AND country_id = $1;"
-  values = [country_id]
-  visited = SqlRunner.run(sql, values)
-  return visited.map {|city|City.new(city)}
-end
-
-def self.not_visited(country_id)
-  sql = "SELECT * FROM cities WHERE visited = 'f' AND country_id = $1;"
-  values = [country_id]
-  visited = SqlRunner.run(sql, values)
-  return visited.map {|city|City.new(city)}
-end
-
+  def self.visited()
+    sql = "SELECT * FROM countries WHERE visited = 't';"
+    visited = SqlRunner.run(sql)
+    return visited.map {|country|Country.new(country)}
   end
+end

@@ -20,6 +20,11 @@ post '/cities' do
   redirect to '/cities'
 end
 
+get '/cities/visited' do
+  @cities = City.visited()
+  erb(:"cities/index")
+end
+
 get '/cities/:id' do
   @city = City.find(params['id'])
   erb(:"cities/show")
@@ -34,7 +39,7 @@ end
 post '/cities/:id' do
   city = City.new(params)
   city.update
-  redirect to "/countries/#{params['id']}"
+  redirect to "/cities/#{params['id']}"
 end
 
 post '/cities/:id/delete' do

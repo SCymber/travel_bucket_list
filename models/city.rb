@@ -2,14 +2,14 @@ require_relative('../db/sql_runner')
 
 class City
 
-  attr_accessor :name, :visited
+  attr_accessor :name, :visited, :country_id
   attr_reader :id
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
     @name = options['name']
     @country_id = options['country_id'].to_i
-    @visited = "F"
+    @visited = options['visited']
   end
 
   def save()
@@ -43,7 +43,7 @@ class City
     SET
     (
       name,
-      country_id
+      country_id,
       visited
     ) =
     (
@@ -88,20 +88,11 @@ class City
     result = SqlRunner.run(sql, values).first
     city = City.new(result)
     return city
-
-    def self.visited(country_id)
-      sql = "SELECT * FROM cities WHERE visited = 't' AND country_id = $1;"
-      values = [country_id]
-      visited = SqlRunner.run(sql, values)
-      return visited.map {|city|City.new(city)}
-    end
-
-    def self.not_visited(country_id)
-      sql = "SELECT * FROM cities WHERE visited = 'f' AND country_id = $1;"
-      values = [country_id]
-      visited = SqlRunner.run(sql, values)
-      return visited.map {|city|City.new(city)}
-    end
   end
 
+    def self.visited()
+      sql = "SELECT * FROM cities WHERE visited = 't';"
+      visited = SqlRunner.run(sql)
+      return visited.map {|city|City.new(city)}
+    end
 end

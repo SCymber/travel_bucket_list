@@ -3,10 +3,14 @@
 <h3></h3>
 
 <form action="/cities/<%= @city.id %>" method="POST">
-  <label for="country">Country:</label>
+  <label for="country">Country</label>
   <select name="country_id" id="country" value="<%= @city.country.id %>">
     <% for country in @countries %>
-      <option value="<%= country.id %>"><%= country.name %></option>
+      <% if country.id == @city.country_id %>
+        <option value="<%= country.id %>" selected><%= country.name %></option>
+      <% else %>
+          <option value="<%= country.id %>"><%= country.name %></option>
+      <% end %>
     <% end %>
   </select>
 
