@@ -1,0 +1,53 @@
+body {
+  background:
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Times New Roman", Times, serif;
+  height: 100vh;
+}
+
+p  {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.title {
+  color :black;
+  font-size: 50px;
+}
+
+.title a {
+  color :black;
+  font-size: 200px;
+}
+
+.title a:hover {
+  color :black;
+  font-size: 200px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+}
+
+.nav a {
+  color :black;
+}
+
+.nav ul {
+  display: flex;
+  flex-direction: row;
+  padding-right: 20px;
+
+}
+.nav li {
+  font-size: 25px;
+  padding-right: 40px;
+  list-style-type: none;
+}
+
+.nav li a:hover {
+  background-color: #f8f8ff;
+  opacity: 0.1;
+}
