@@ -1,5 +1,5 @@
 body {
-  background:
+  background: url(https://d36tnp772eyphs.cloudfront.net/blogs/1/2014/05/Railay-940x705.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -50,4 +50,9 @@ p  {
 .nav li a:hover {
   background-color: #f8f8ff;
   opacity: 0.1;
+}
+
+a {
+  color:#000000;
+  text-decoration:none;
 }

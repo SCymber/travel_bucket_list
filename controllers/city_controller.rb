@@ -20,6 +20,11 @@ post '/cities' do
   redirect to '/cities'
 end
 
+get '/cities/wishlist' do
+  @cities = City.wishlist()
+  erb(:"cities/index")
+end
+
 get '/cities/visited' do
   @cities = City.visited()
   erb(:"cities/index")

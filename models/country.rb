@@ -79,4 +79,10 @@ class Country
     visited = SqlRunner.run(sql)
     return visited.map {|country|Country.new(country)}
   end
+
+  def self.wishlist()
+    sql = "SELECT * FROM countries WHERE visited = 'f';"
+    nonvisited = SqlRunner.run(sql)
+    return nonvisited.map {|country|Country.new(country)}
+  end
 end

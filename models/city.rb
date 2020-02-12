@@ -9,7 +9,7 @@ class City
     @id = options['id'].to_i if options['id']
     @name = options['name']
     @country_id = options['country_id'].to_i
-    @visited = options['visited']
+    @visited = options['visited'] if options['visited']
   end
 
   def save()
@@ -90,9 +90,15 @@ class City
     return city
   end
 
-    def self.visited()
-      sql = "SELECT * FROM cities WHERE visited = 't';"
-      visited = SqlRunner.run(sql)
-      return visited.map {|city|City.new(city)}
-    end
+  def self.visited()
+    sql = "SELECT * FROM cities WHERE visited = 't';"
+    visited = SqlRunner.run(sql)
+    return visited.map {|city|City.new(city)}
+  end
+
+  def self.wishlist()
+    sql = "SELECT * FROM cities WHERE visited = 'f';"
+    nonvisited = SqlRunner.run(sql)
+    return nonvisited.map {|city|City.new(city)}
+  end
 end
